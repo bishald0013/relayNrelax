@@ -1,0 +1,46 @@
+.tabs_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 19rem;
+    margin-right: auto;
+}
+
+/* Adjust styling for the tabs */
+.link_tabs {
+    /* font-family: 'Arvo', serif; */
+    font-family: 'Mukta', sans-serif;
+    color: #1A5D1A;
+    margin: 0 0.9rem; 
+    display: inline-block; 
+}
+
+.brand_text {
+    font-family: 'Arvo', serif;
+    color: #1A5D1A;
+}
+
+.custom-left {
+    margin-right: auto;
+    margin-left: 10;
+}
+.bg-colour{
+    background-color: #d4f5bb;
+}
+.navbar {
+    height: 90px; /* Adjust this value to increase the height */
+}
+.icon{
+    margin-top: 0.1px;
+}
+.ul_content{
+    margin-right: 10px;
+}
+.brand_text{
+    margin-top: 1rem;
+}
+.nav.justify-content-center {
+    margin: 0 rem;
+    padding: 0;
+}
+  

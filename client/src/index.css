@@ -1,0 +1,26 @@
+body {
+  /* margin: 0;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1853' height='917' viewBox='0 0 1853 917' fill='none'><path d='M1853 0V814C1853 870.885 1806.89 917 1750 917H926.5L104.886 908.367C46.7818 907.757 0 860.481 0 802.373V0H1853Z' fill='%23D4F5BB'/></svg>");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; */
+  
+  font-family: 'Roboto Slab', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* .svg-background {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='984' height='471' viewBox='0 0 984 471' fill='none'><path d='M984 0V368C984 424.885 937.885 471 881 471H492L104.923 467.066C46.8038 466.476 0 419.194 0 361.072V0H984Z' fill='%23FBFFDC'/></svg>");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+} */
+
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

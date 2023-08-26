@@ -1,0 +1,27 @@
+.card_size_1{
+    height: 14rem;
+    background-color: #e4cefa;
+    border-radius: 1.8rem;
+    border: none;
+}
+.card_size_2{
+    height: 14rem;
+    background-color: #FFDDCC;
+    border-radius: 1.8rem;
+    border: none;
+
+}
+.card_size_3{
+    height: 14rem;
+    background-color: #fcd0db;
+    border-radius: 1.8rem;
+    border: none;
+
+}
+.card_size_4{
+    height: 14rem;
+    background-color: #CFF5E7;
+    border-radius: 1.8rem;
+    border: none;
+
+}
