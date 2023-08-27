@@ -42,4 +42,13 @@ export default class UserController {
             res.send(error.message);
         }
     }
+
+    updatePhoneNumber = async (req, res) => {
+        try {
+            const updatedPhoneNumber = await this.UserService.updatePhoneNumber(req.body, req.user)
+            res.send(updatedPhoneNumber);
+        } catch (error) {
+            res.send(error.message);
+        }
+    }
 }

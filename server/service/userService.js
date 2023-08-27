@@ -12,7 +12,7 @@ export default class UserService {
             
             const existing_user = await UserModel.findOne({email: email})
 
-            if(existing_user) throw new Error(`User ${email} already exists`);
+            if(existing_user) throw new Error(`User with email: ${email} already exists`);
             if(password !== confirmPassword) throw new Error(`Password and confirmPassword are not the same`);
             if(phoneNumber === alternateNumber) throw new Error(`Alternate number must be different from phoneNumber`);
 
@@ -66,18 +66,34 @@ export default class UserService {
             const {email} = data;
 
             if(email === userData.email) throw new Error ("Email already in use ");
-
+            const saved_email = await UserModel.findOne({email: email})
+            if(saved_email) throw new Error ("Email already exists");
             const updated_email = await UserModel.findByIdAndUpdate(userData._id, {$set: {email: email}})
             const updated_user = await UserModel.findOne({email: email})
 
             if(updated_user.email === email) return {status: true, message: "Email address updated successfully"}
 
-            return {status: false, message: "Email address not updated successfully"}
+            return {status: false, message: "Fail to update email address"}
 
         } catch (error) {
             return {status: false, message: error.message}
         }
-    } 
+    }
+    
+    updatePhoneNumber = async (data, userData) => {
+        try {
+            const user = await UserModel.findOne({email: userData.email})
+
+            if(user.phone_number == data.phone_number) throw new Error ("Phone number already saved")
+            await UserModel.findByIdAndUpdate(userData._id, {$set: {phone_number: data.phone_number}})
+            const updated_user = await UserModel.findOne({email: userData.email})
+            if(updated_user.phone_number == data.phone_number) return {status: true, message: "Phone number updated successfully"}
+            return {status: false, message: 'fail to update phone number'}
+
+        } catch (error) {
+            return {status: false, message: error.message}
+        }
+    }
 
     getAllUser = async () =>{
         try {
