@@ -6,7 +6,7 @@ export default class UserService {
 
     saveUser = async (data) =>{
         
-        const { email, password, confirmPassword, userName, phoneNumber, alternateNumber } = data;
+        const { email, password, confirmPassword, userName, phoneNumber, alternateNumber, zip } = data;
 
         try {
             
@@ -24,6 +24,7 @@ export default class UserService {
                 phone_number: phoneNumber,
                 alternate_number: alternateNumber,
                 email: email,
+                zip: zip,
                 password: hashPassword
             })
 
