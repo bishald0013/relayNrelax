@@ -1,8 +1,12 @@
 import bcrypt, {genSalt} from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import SendEmailService from './sendEmailService.js';
 import UserModel from "../models/userModel.js";
 
 export default class UserService {
+    constructor() {
+        this.SendEmailService = new SendEmailService();
+    }
 
     saveUser = async (data) =>{
         
@@ -30,9 +34,14 @@ export default class UserService {
 
             const saved_user = await newUser.save();
             if(!saved_user) throw new Error(`Something went wrong saving user please try again`);
+            
+            const subject = "SignUp successfully";
+            const text = `<p><strong>SignUp successfully on relayNrelax.com</strong></p>`
+
+            const sendEmail = await this.SendEmailService.sendEmail(saved_user.email, subject, text);
             const token = jwt.sign({userId: saved_user._id}, process.env.SECRET_KEY, {expiresIn: '10d'})
 
-            return {status: true, data: saved_user, token: token}
+            return {status: true, data: saved_user, token: token, email: sendEmail}
 
         } catch (error) {
             return {status: false, message: error.message}
@@ -69,12 +78,19 @@ export default class UserService {
             if(email === userData.email) throw new Error ("Email already in use ");
             const saved_email = await UserModel.findOne({email: email})
             if(saved_email) throw new Error ("Email already exists");
-            const updated_email = await UserModel.findByIdAndUpdate(userData._id, {$set: {email: email}})
-            const updated_user = await UserModel.findOne({email: email})
+            await UserModel.findByIdAndUpdate(userData._id, {$set: {email: email}})
 
-            if(updated_user.email === email) return {status: true, message: "Email address updated successfully"}
+            const user  = await UserModel.findOne({email: email})
 
-            return {status: false, message: "Fail to update email address"}
+            if(user.email === email) {
+                const subject = "Email address updated successfully";
+                const text = `<p><strong>Email address updated successfully</strong></p>
+`                
+                const sendEmail = this.SendEmailService.sendEmail(user.email, subject, text);
+                return {status: true, message: "Email address updated successfully", email: sendEmail}
+            } else {
+                return {status: false, message: "fail to update email"}
+            }
 
         } catch (error) {
             return {status: false, message: error.message}
@@ -84,12 +100,23 @@ export default class UserService {
     updatePhoneNumber = async (data, userData) => {
         try {
             const user = await UserModel.findOne({email: userData.email})
-
-            if(user.phone_number == data.phone_number) throw new Error ("Phone number already saved")
+            
+            if(!user) throw new Error('User not found');
+            if(data.phone_number === user.phone_number) throw new Error('Phone number already exists');
+            if(data.phone_number === user.alternate_number) throw new Error('Phone number is must be different from alternative number');
             await UserModel.findByIdAndUpdate(userData._id, {$set: {phone_number: data.phone_number}})
-            const updated_user = await UserModel.findOne({email: userData.email})
-            if(updated_user.phone_number == data.phone_number) return {status: true, message: "Phone number updated successfully"}
-            return {status: false, message: 'fail to update phone number'}
+
+            const updatedEmail  = await UserModel.findOne({email: userData.email})
+
+            if(updatedEmail.phone_number === data.phone_number) {
+                const subject = "Phone number updated successfully";
+                const text = `<p><strong>Phone number updated successfully</strong></p>
+`                
+                const sendEmail = this.SendEmailService.sendEmail(user.email, subject, text);
+                return {status: true, message: "Phone number updated successfully", email: sendEmail}
+            }else{
+                return {status: false, message: "fail to update phone number"}
+            }
 
         } catch (error) {
             return {status: false, message: error.message}

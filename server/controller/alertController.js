@@ -2,11 +2,23 @@ import AlertService from "../service/alertService.js";
 
 export default class AlertController {
 
-    async createAlert (req, res) {
+    constructor() {
+        this.AlertService = new AlertService();
+    }
+
+    createAlert = async (req, res) => {
         try {
-            const alert = new AlertService();
-            const setAlert = await alert.setAlert(req.body, req.user)
-            res.send({status: true, data: setAlert});
+            const setAlert = await this.AlertService.setAlert(req.body, req.user)
+            res.send({status: setAlert.status, data: setAlert});
+        } catch (error) {
+            res.send({status: false, error: error.message});
+        }
+    }
+
+    updateAlert = async (req, res) => {
+        try {
+            const updateAlert = await this.AlertService.updateAlert(req.body, req.user)
+            res.send({status: updateAlert.status, data: updateAlert});
         } catch (error) {
             res.send({status: false, error: error.message});
         }
